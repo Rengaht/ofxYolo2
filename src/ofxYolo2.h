@@ -5,6 +5,7 @@
 #include "ofMain.h"
 
 #define USE_TRACKING_ID
+#define USE_YOLO_9000
 
 class ofxYolo2 {
 
@@ -15,6 +16,7 @@ class ofxYolo2 {
 public:
 
 	void setup();
+	void setup(string config, string weights, string names);
 
 	std::string getName(int index);
 	image_t convert(ofPixels & pix);

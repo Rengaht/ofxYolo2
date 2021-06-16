@@ -7,7 +7,10 @@ std::vector<std::string> objects_names_from_file(std::string const filename) {
 	std::ifstream file(filename);
 	std::vector<std::string> file_lines;
 	if (!file.is_open()) return file_lines;
-	for (std::string line; file >> line;) file_lines.push_back(line);
+	for (std::string line; std::getline(file,line) ;) {
+		file_lines.push_back(line);
+		//ofLog() << line;
+	}
 	std::cout << "object names loaded \n";
 	return file_lines;
 }
@@ -29,9 +32,14 @@ std::vector<bbox_t> ofxYolo2::detect(ofPixels& pixels) {
 
 void ofxYolo2::setup() {
 
-	string config = ofToDataPath("yolo-voc.cfg");
-	string weights = ofToDataPath("yolo-voc.weights");
-	string names = ofToDataPath("voc.names");
+	setup("yolo-voc.cfg", "yolo-voc.weights", "voc.names");
+}
+
+void ofxYolo2::setup(string config, string weights,string names){
+	
+	config = ofToDataPath(config);
+	weights = ofToDataPath(weights);
+	names = ofToDataPath(names);
 
 	detector = new Detector(config, weights);
 	objectNames = objects_names_from_file(names);
